@@ -21,6 +21,5 @@ spring:
     consumer:
       bootstrap-servers: 127.0.0.1:9092
 server:
-  edgex: localhost
   port: 8091
 mq: activemq
