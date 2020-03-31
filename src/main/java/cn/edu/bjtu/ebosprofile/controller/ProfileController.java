@@ -39,10 +39,10 @@ public class ProfileController {
     }
 
     @CrossOrigin
-    @PostMapping("/{ip}/yml")
-    public String addProduct(@PathVariable String ip,@RequestBody String product) {
-        System.out.println("收到\n"+product);
-        String url = "http://"+ip+":48081/api/v1/deviceprofile/upload";
+    @PostMapping("/{ip}")
+    public String addProduct(@PathVariable String ip,@RequestBody JSONObject product) {
+        System.out.println("收到\n"+product.toString());
+        String url = "http://"+ip+":48081/api/v1/deviceprofile";
         String result = restTemplate.postForObject(url,product,String.class);
         return result;
     }
