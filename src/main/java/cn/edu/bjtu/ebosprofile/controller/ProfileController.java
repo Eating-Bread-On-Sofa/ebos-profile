@@ -48,11 +48,15 @@ public class ProfileController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/{ip}")
-    public void deleteProduct(@PathVariable String ip,@RequestBody String id){
-        String url = "http://"+ip+":48081/api/v1/deviceprofile/id/"+id;
-        System.out.println(url);
-        restTemplate.delete(url);
+    @DeleteMapping("/{ip}/{id}")
+    public String deleteProduct(@PathVariable String ip, @PathVariable String id) {
+        String url = "http://" + ip + ":48081/api/v1/deviceprofile/id/" + id;
+        try {
+            restTemplate.delete(url);
+            return "done";
+        } catch (Exception e) {
+            return e.toString();
+        }
     }
 
     @CrossOrigin
