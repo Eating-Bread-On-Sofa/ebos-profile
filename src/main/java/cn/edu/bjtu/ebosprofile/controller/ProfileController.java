@@ -17,7 +17,7 @@ public class ProfileController {
     RestTemplate restTemplate;
 
     @CrossOrigin
-    @GetMapping("/{ip}")
+    @GetMapping("/ip/{ip}")
     public JSONArray getProducts(@PathVariable String ip) {
         String url = "http://"+ip+":48081/api/v1/deviceprofile";
         JSONArray products = new JSONArray(restTemplate.getForObject(url,JSONArray.class));
@@ -32,14 +32,14 @@ public class ProfileController {
     }
 
     @CrossOrigin
-    @GetMapping("/{ip}/{id}")
+    @GetMapping("/ip/{ip}/id/{id}")
     public JSONObject getThisProduct(@PathVariable String ip,@PathVariable String id){
         String url = "http://"+ip+":48081/api/v1/deviceprofile/"+id;
         return profileService.stamp2Time(restTemplate.getForObject(url,JSONObject.class));
     }
 
     @CrossOrigin
-    @PostMapping("/{ip}")
+    @PostMapping("/ip/{ip}")
     public String addProduct(@PathVariable String ip,@RequestBody JSONObject product) {
         System.out.println("收到\n"+product.toString());
         String url = "http://"+ip+":48081/api/v1/deviceprofile";
@@ -48,7 +48,16 @@ public class ProfileController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/{ip}/{id}")
+    @PostMapping("/ip/{ip}/yml")
+    public String addProduct(@PathVariable String ip, @RequestBody String product) {
+        System.out.println("收到\n"+product);
+        String url = "http://"+ip+":48081/api/v1/deviceprofile/upload";
+        String result = restTemplate.postForObject(url,product,String.class);
+        return result;
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/ip/{ip}/id/{id}")
     public String deleteProduct(@PathVariable String ip, @PathVariable String id) {
         String url = "http://" + ip + ":48081/api/v1/deviceprofile/id/" + id;
         try {
