@@ -19,18 +19,23 @@ public class ProfileController {
     @CrossOrigin
     @GetMapping("/ip/{ip}")
     public JSONArray getProducts(@PathVariable String ip) {
-        String url = "http://"+ip+":48081/api/v1/deviceprofile";
-        JSONArray products = new JSONArray(restTemplate.getForObject(url,JSONArray.class));
         JSONArray result = new JSONArray();
-        for(int i=0;i<products.size();i++){
-            JSONObject jo = products.getJSONObject(i);
-            jo = profileService.stamp2Time(jo);
-            jo.put("gateway-ip",ip);
-            result.add(jo);
-        }
-        System.out.println("查看所有设备模板"+result);
+        result = profileService.getProfiles(result,ip);
+        System.out.println("查看网关"+ip+"设备模板"+result);
         return result;
     }
+
+    @CrossOrigin
+    @GetMapping("/ip")
+    public JSONArray getAllProducts(@RequestParam String ipset){
+        JSONArray result = new JSONArray();
+        String[] ips = ipset.split(",");
+        for (String ip : ips) {
+            result = profileService.getProfiles(result,ip);
+        }
+        return result;
+    }
+
 
     @CrossOrigin
     @GetMapping("/ip/{ip}/id/{id}")
