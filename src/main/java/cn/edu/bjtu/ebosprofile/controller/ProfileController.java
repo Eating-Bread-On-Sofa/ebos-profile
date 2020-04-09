@@ -25,6 +25,7 @@ public class ProfileController {
         for(int i=0;i<products.size();i++){
             JSONObject jo = products.getJSONObject(i);
             jo = profileService.stamp2Time(jo);
+            jo.put("gateway-ip",ip);
             result.add(jo);
         }
         System.out.println("查看所有设备模板"+result);
