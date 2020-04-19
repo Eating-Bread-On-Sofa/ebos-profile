@@ -39,7 +39,7 @@ public class ProfileServiceImpl implements ProfileService {
         for(int i=0;i<profiles.size();i++){
             JSONObject jo = profiles.getJSONObject(i);
             jo = stamp2Time(jo);
-            jo.put("gateway-ip",ip);
+            jo.put("ip",ip);
             output.add(jo);
         }
         return output;
