@@ -3,11 +3,13 @@ package cn.edu.bjtu.ebosprofile.controller;
 import cn.edu.bjtu.ebosprofile.service.ProfileService;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-
+@Api(tags = "设备模板")
 @RequestMapping("/api/profile")
 @RestController
 public class ProfileController {
@@ -25,6 +27,7 @@ public class ProfileController {
         return result;
     }
 
+    @ApiImplicitParam(name = "ipset",value = "所有网关的ip，按英文逗号分隔，无空格",required = true,dataTypeClass = String.class)
     @CrossOrigin
     @GetMapping("/ip")
     public JSONArray getAllProducts(@RequestParam String ipset){
