@@ -1,5 +1,7 @@
 package cn.edu.bjtu.ebosprofile.service.impl;
 
+import cn.edu.bjtu.ebosprofile.dao.ProfileYMLRepo;
+import cn.edu.bjtu.ebosprofile.entity.ProfileYML;
 import cn.edu.bjtu.ebosprofile.service.ProfileService;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -15,6 +17,18 @@ import java.util.Date;
 public class ProfileServiceImpl implements ProfileService {
     @Autowired
     RestTemplate restTemplate;
+    @Autowired
+    ProfileYMLRepo profileYMLRepo;
+
+    @Override
+    public ProfileYML getYML(String name){
+        return profileYMLRepo.findByName(name);
+    }
+
+    @Override
+    public void saveYML(ProfileYML profileYML){
+        profileYMLRepo.save(profileYML);
+    }
 
     @Override
     public JSONObject stamp2Time(JSONObject jsonObject){

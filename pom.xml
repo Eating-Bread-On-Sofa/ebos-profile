@@ -44,6 +44,10 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.39</version>
         </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+        </dependency>
         <!-- Swagger2核心包-->
         <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
         <dependency>
