@@ -1,5 +1,6 @@
 package cn.edu.bjtu.ebosprofile.controller;
 
+import cn.edu.bjtu.ebosprofile.service.LogService;
 import cn.edu.bjtu.ebosprofile.service.ProfileService;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -17,6 +18,8 @@ public class ProfileController {
     ProfileService profileService;
     @Autowired
     RestTemplate restTemplate;
+    @Autowired
+    LogService logService;
 
     @CrossOrigin
     @GetMapping("/ip/{ip}")
@@ -53,6 +56,7 @@ public class ProfileController {
         System.out.println("收到\n"+product.toString());
         String url = "http://"+ip+":48081/api/v1/deviceprofile";
         String result = restTemplate.postForObject(url,product,String.class);
+        logService.info("向网关"+ip+"添加了新设备模板："+product.getString("name"));
         return result;
     }
 
@@ -62,6 +66,7 @@ public class ProfileController {
         System.out.println("收到\n"+product);
         String url = "http://"+ip+":48081/api/v1/deviceprofile/upload";
         String result = restTemplate.postForObject(url,product,String.class);
+        logService.info("向网关"+ip+"添加了新设备模板"+product);
         return result;
     }
 
@@ -71,6 +76,7 @@ public class ProfileController {
         String url = "http://" + ip + ":48081/api/v1/deviceprofile/id/" + id;
         try {
             restTemplate.delete(url);
+            logService.info("删除了网关"+ip+"的设备模板："+id);
             return "done";
         } catch (Exception e) {
             return e.toString();
