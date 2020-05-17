@@ -8,6 +8,7 @@ import java.util.List;
 
 @Repository
 public interface ProfileYMLRepo extends MongoRepository<ProfileYML,String> {
+    @Override
     List<ProfileYML> findAll();
     ProfileYML findByName(String name);
     void deleteByName(String name);

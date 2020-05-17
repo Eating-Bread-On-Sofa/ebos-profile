@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface ProfileService {
     ProfileYML getYML(String name);
-    void saveYML(ProfileYML profileYML);
+    boolean saveYML(ProfileYML profileYML);
+    boolean deleteYML(String name);
     JSONObject stamp2Time(JSONObject jsonObject);
     JSONArray getProfiles(JSONArray output, String ip);
+    JSONArray getProfilesName(JSONArray output, String ip);
+    JSONArray getRepoProfiles();
 }
