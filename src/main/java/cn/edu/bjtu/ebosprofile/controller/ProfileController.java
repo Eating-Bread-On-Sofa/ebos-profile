@@ -6,14 +6,9 @@ import cn.edu.bjtu.ebosprofile.service.ProfileService;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import org.yaml.snakeyaml.Yaml;
-
-import java.util.Map;
 
 @Api(tags = "设备模板")
 @RequestMapping("/api/profile")
@@ -37,7 +32,7 @@ public class ProfileController {
     public boolean saveRepoProfile(@RequestBody JSONObject jsonObject){
         ProfileYML profileYML = new ProfileYML();
         profileYML.setName(jsonObject.getString("name"));
-        profileYML.setInfo(jsonObject.getString("info"));
+        profileYML.setInfo(jsonObject.getJSONObject("info"));
         return profileService.saveYML(profileYML);
     }
 
@@ -65,18 +60,18 @@ public class ProfileController {
 
     @CrossOrigin
     @PostMapping("/gateway/{ip}")
-    public String addProduct(@PathVariable String ip,@RequestBody JSONObject product) {
-        System.out.println("收到\n"+product.toString());
+    public String addProduct(@PathVariable String ip,@RequestBody String name) {
+        ProfileYML yml = profileService.getYML(name);
         String url = "http://"+ip+":48081/api/v1/deviceprofile";
+        JSONObject product = yml.getInfo();
         String result = restTemplate.postForObject(url,product,String.class);
-        logService.info("向网关"+ip+"添加了新设备模板："+product.getString("name"));
+        logService.info("向网关" + ip + "添加了新设备模板：" + name);
         return result;
     }
 
     @CrossOrigin
     @DeleteMapping("/gateway/{ip}")
-    public String deleteProduct(@PathVariable String ip,@RequestBody JSONObject product) {
-        String name = product.getString("name");
+    public String deleteProduct(@PathVariable String ip,@RequestBody String name) {
         String url = "http://" + ip + ":48081/api/v1/deviceprofile/name/" + name;
         try {
             restTemplate.delete(url);
