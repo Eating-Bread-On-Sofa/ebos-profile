@@ -1,6 +1,5 @@
 package cn.edu.bjtu.ebosprofile.entity;
 
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class ProfileYML {
     @Id
     private String name;
-    private JSONObject info;
+    private String info;
 
     public String getName() {
         return name;
@@ -18,11 +17,11 @@ public class ProfileYML {
         this.name = name;
     }
 
-    public JSONObject getInfo() {
+    public String getInfo() {
         return info;
     }
 
-    public void setInfo(JSONObject info) {
+    public void setInfo(String info) {
         this.info = info;
     }
 }

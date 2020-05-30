@@ -6,6 +6,7 @@ import cn.edu.bjtu.ebosprofile.service.ProfileService;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -32,7 +33,7 @@ public class ProfileController {
     public boolean saveRepoProfile(@RequestBody JSONObject jsonObject){
         ProfileYML profileYML = new ProfileYML();
         profileYML.setName(jsonObject.getString("name"));
-        profileYML.setInfo(jsonObject.getJSONObject("info"));
+        profileYML.setInfo(jsonObject.getString("info"));
         return profileService.saveYML(profileYML);
     }
 
@@ -62,8 +63,9 @@ public class ProfileController {
     @PostMapping("/gateway/{ip}")
     public String addProduct(@PathVariable String ip,@RequestBody String name) {
         ProfileYML yml = profileService.getYML(name);
-        String url = "http://"+ip+":48081/api/v1/deviceprofile";
-        JSONObject product = yml.getInfo();
+        System.out.println("收到\n"+yml.toString());
+        String url = "http://" + ip + ":48081/api/v1/deviceprofile/upload";
+        String product = yml.getInfo();
         String result = restTemplate.postForObject(url,product,String.class);
         logService.info("向网关" + ip + "添加了新设备模板：" + name);
         return result;
