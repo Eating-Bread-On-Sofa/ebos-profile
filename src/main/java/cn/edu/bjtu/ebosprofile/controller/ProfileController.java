@@ -70,7 +70,7 @@ public class ProfileController {
         String url = "http://" + ip + ":48081/api/v1/deviceprofile/upload";
         String product = yml.getInfo();
         String result = restTemplate.postForObject(url,product,String.class);
-        logService.info("向网关" + ip + "添加了新设备模板：" + name);
+        logService.info(null,"向网关" + ip + "添加了新设备模板：" + name);
         return result;
     }
 
@@ -80,7 +80,7 @@ public class ProfileController {
         String url = "http://" + ip + ":48081/api/v1/deviceprofile/name/" + name;
         try {
             restTemplate.delete(url);
-            logService.info("删除了网关"+ip+"的设备模板："+name);
+            logService.info(null,"删除了网关"+ip+"的设备模板："+name);
             return "done";
         } catch (Exception e) {
             return e.toString();
