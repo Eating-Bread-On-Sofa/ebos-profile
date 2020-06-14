@@ -96,11 +96,15 @@ public class ProfileServiceImpl implements ProfileService {
         List<ProfileYML> profileYMLRepoAll = profileYMLRepo.findAll();
         JSONArray result = new JSONArray();
         for (ProfileYML profileYML : profileYMLRepoAll) {
+            JSONObject jsonObj = new JSONObject();
+            String name = profileYML.getName();
             String ymlStr = profileYML.getInfo();
             Yaml yaml = new Yaml();
             Map<String,Object> map = (Map<String, Object>) yaml.load(ymlStr);
             JSONObject jsonObject = new JSONObject(map);
-            result.add(jsonObject);
+            jsonObj.put("name", name);
+            jsonObj.put("yml", jsonObject);
+            result.add(jsonObj);
         }
         return result;
     }
