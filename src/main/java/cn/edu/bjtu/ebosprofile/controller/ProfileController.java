@@ -41,7 +41,7 @@ public class ProfileController {
     @GetMapping("/name/{name}")
     public JSONObject getRepoProfile(@PathVariable String name) {
         ProfileYML yml = profileService.getYML(name);
-        return (JSONObject) JSONObject.toJSON(yml);
+        return (JSONObject) JSONObject.toJSON(yml.getInfo());
     }
 
     @CrossOrigin

@@ -94,7 +94,7 @@ public class ProfileServiceImpl implements ProfileService {
         List<ProfileYML> profileYMLRepoAll = profileYMLRepo.findAll();
         JSONArray result = new JSONArray();
         for (ProfileYML profileYML : profileYMLRepoAll) {
-            JSONObject jsonObject = (JSONObject) JSONObject.toJSON(profileYML);
+            JSONObject jsonObject = (JSONObject) JSONObject.toJSON(profileYML.getInfo());
             result.add(jsonObject);
         }
         return result;
