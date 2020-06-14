@@ -10,6 +10,9 @@ import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.yaml.snakeyaml.Yaml;
+
+import java.util.Map;
 
 @Api(tags = "设备模板")
 @RequestMapping("/api/profile")
@@ -41,7 +44,11 @@ public class ProfileController {
     @GetMapping("/name/{name}")
     public JSONObject getRepoProfile(@PathVariable String name) {
         ProfileYML yml = profileService.getYML(name);
-        return (JSONObject) JSONObject.toJSON(yml.getInfo());
+        String ymlStr = yml.getInfo();
+        Yaml yaml = new Yaml();
+        Map<String,Object> map= (Map<String, Object>) yaml.load(ymlStr);
+        JSONObject jsonObject=new JSONObject(map);
+        return jsonObject;
     }
 
     @CrossOrigin

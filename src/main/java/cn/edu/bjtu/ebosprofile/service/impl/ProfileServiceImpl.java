@@ -8,10 +8,12 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.yaml.snakeyaml.Yaml;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
@@ -94,7 +96,10 @@ public class ProfileServiceImpl implements ProfileService {
         List<ProfileYML> profileYMLRepoAll = profileYMLRepo.findAll();
         JSONArray result = new JSONArray();
         for (ProfileYML profileYML : profileYMLRepoAll) {
-            JSONObject jsonObject = (JSONObject) JSONObject.toJSON(profileYML.getInfo());
+            String ymlStr = profileYML.getInfo();
+            Yaml yaml = new Yaml();
+            Map<String,Object> map = (Map<String, Object>) yaml.load(ymlStr);
+            JSONObject jsonObject = new JSONObject(map);
             result.add(jsonObject);
         }
         return result;
