@@ -32,11 +32,11 @@ public class ProfileController {
     }
 
     @CrossOrigin
-    @PostMapping()
-    public boolean saveRepoProfile(@RequestBody JSONObject jsonObject){
+    @PostMapping("/name/{name}")
+    public boolean saveRepoProfile(@PathVariable String name, @RequestBody String ymlStr){
         ProfileYML profileYML = new ProfileYML();
-        profileYML.setName(jsonObject.getString("name"));
-        profileYML.setInfo(jsonObject.getString("info"));
+        profileYML.setName(name);
+        profileYML.setInfo(ymlStr);
         return profileService.saveYML(profileYML);
     }
 
