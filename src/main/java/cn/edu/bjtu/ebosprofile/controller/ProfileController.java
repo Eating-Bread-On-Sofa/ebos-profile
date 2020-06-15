@@ -5,6 +5,7 @@ import cn.edu.bjtu.ebosprofile.service.LogService;
 import cn.edu.bjtu.ebosprofile.service.ProfileService;
 import com.alibaba.fastjson.JSONArray;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -21,12 +22,14 @@ public class ProfileController {
     @Autowired
     LogService logService;
 
+    @ApiOperation(value = "查看模板库中模板")
     @CrossOrigin
     @GetMapping()
     public JSONArray getRepoProfiles(){
         return profileService.getRepoProfiles();
     }
 
+    @ApiOperation(value = "向库中添加模板")
     @CrossOrigin
     @PostMapping()
     public boolean saveRepoProfile( @RequestBody String ymlStr){
@@ -34,6 +37,7 @@ public class ProfileController {
         return profileService.saveYML(profileYML);
     }
 
+    @ApiOperation(value = "查看指定模板")
     @CrossOrigin
     @GetMapping("/name/{name}")
     public String getRepoProfile(@PathVariable String name) {
@@ -41,12 +45,14 @@ public class ProfileController {
         return yml.getInfo();
     }
 
+    @ApiOperation(value = "删除指定模板")
     @CrossOrigin
     @DeleteMapping("/name/{name}")
     public boolean deleteRepoProfile(@PathVariable String name) {
         return profileService.deleteYML(name);
     }
 
+    @ApiOperation(value = "查看指定网关下的模板")
     @CrossOrigin
     @GetMapping("/gateway/{ip}")
     public JSONArray getProducts(@PathVariable String ip) {
@@ -56,6 +62,7 @@ public class ProfileController {
         return result;
     }
 
+    @ApiOperation(value = "向指定网关下发模板")
     @CrossOrigin
     @PostMapping("/gateway/{ip}/{name}")
     public String addProduct(@PathVariable String ip,@PathVariable String name) {
@@ -72,6 +79,7 @@ public class ProfileController {
         }
     }
 
+    @ApiOperation(value = "删除指定网关下的模板")
     @CrossOrigin
     @DeleteMapping("/gateway/{ip}/{name}")
     public String deleteProduct(@PathVariable String ip,@PathVariable String name) {
@@ -85,6 +93,7 @@ public class ProfileController {
         }
     }
 
+    @ApiOperation(value = "指定网关已有的模板列表")
     @CrossOrigin
     @GetMapping("/gateway/{ip}/list")
     public JSONArray getBriefInfo(@PathVariable String ip) {
@@ -93,6 +102,7 @@ public class ProfileController {
         return result;
     }
 
+    @ApiOperation(value = "微服务健康检测")
     @CrossOrigin
     @GetMapping("/ping")
     public String ping(){
