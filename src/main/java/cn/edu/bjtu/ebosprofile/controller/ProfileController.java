@@ -57,8 +57,8 @@ public class ProfileController {
     }
 
     @CrossOrigin
-    @PostMapping("/gateway/{ip}")
-    public String addProduct(@PathVariable String ip,@RequestBody String name) {
+    @PostMapping("/gateway/{ip}/{name}")
+    public String addProduct(@PathVariable String ip,@PathVariable String name) {
         ProfileYML yml = profileService.getYML(name);
         System.out.println("收到\n"+yml.toString());
         String url = "http://" + ip + ":48081/api/v1/deviceprofile/upload";
@@ -69,8 +69,8 @@ public class ProfileController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/gateway/{ip}")
-    public String deleteProduct(@PathVariable String ip,@RequestBody String name) {
+    @DeleteMapping("/gateway/{ip}/{name}")
+    public String deleteProduct(@PathVariable String ip,@PathVariable String name) {
         String url = "http://" + ip + ":48081/api/v1/deviceprofile/name/" + name;
         try {
             restTemplate.delete(url);
@@ -83,7 +83,7 @@ public class ProfileController {
 
     @CrossOrigin
     @GetMapping("/gateway/{ip}/list")
-    public JSONArray getBriedInfo(@PathVariable String ip) {
+    public JSONArray getBriefInfo(@PathVariable String ip) {
         JSONArray result = new JSONArray();
         result = profileService.getProfilesName(result,ip);
         return result;
