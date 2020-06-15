@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 
-@Api(tags = "设备模板")
+@Api(tags = "模板管理")
 @RequestMapping("/api/profile")
 @RestController
 public class ProfileController {
