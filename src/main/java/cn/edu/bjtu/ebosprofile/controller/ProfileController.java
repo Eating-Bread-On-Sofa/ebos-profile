@@ -60,12 +60,16 @@ public class ProfileController {
     @PostMapping("/gateway/{ip}/{name}")
     public String addProduct(@PathVariable String ip,@PathVariable String name) {
         ProfileYML yml = profileService.getYML(name);
-        System.out.println("收到\n"+yml.toString());
+        if(yml != null){
+        System.out.println(yml.getInfo());
         String url = "http://" + ip + ":48081/api/v1/deviceprofile/upload";
         String product = yml.getInfo();
         String result = restTemplate.postForObject(url,product,String.class);
         logService.info(null,"向网关" + ip + "添加了新设备模板：" + name);
         return result;
+        }else {
+            return "模板库中无此模板";
+        }
     }
 
     @CrossOrigin
