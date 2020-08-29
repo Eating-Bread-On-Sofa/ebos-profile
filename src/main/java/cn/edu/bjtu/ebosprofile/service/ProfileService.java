@@ -4,8 +4,6 @@ import cn.edu.bjtu.ebosprofile.entity.ProfileYML;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import java.util.List;
-
 public interface ProfileService {
     ProfileYML getYML(String name);
     boolean saveYML(ProfileYML profileYML);
