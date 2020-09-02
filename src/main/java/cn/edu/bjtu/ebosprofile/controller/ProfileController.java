@@ -45,6 +45,7 @@ public class ProfileController {
     @PostMapping()
     public boolean saveRepoProfile( @RequestBody String ymlStr){
         ProfileYML profileYML = new ProfileYML(ymlStr);
+        logService.info("create","向库中添加模板"+ymlStr+"成功！");
         return profileService.saveYML(profileYML);
     }
 
@@ -60,6 +61,7 @@ public class ProfileController {
     @CrossOrigin
     @DeleteMapping("/name/{name}")
     public boolean deleteRepoProfile(@PathVariable String name) {
+        logService.info("delete","删除模板"+name+"成功！");
         return profileService.deleteYML(name);
     }
 
@@ -83,7 +85,7 @@ public class ProfileController {
         String url = "http://" + ip + ":48081/api/v1/deviceprofile/upload";
         String product = yml.getInfo();
         String result = restTemplate.postForObject(url,product,String.class);
-        logService.info(null,"向网关" + ip + "添加了新设备模板：" + name);
+        logService.info("create","向网关" + ip + "添加了新设备模板：" + name);
         return result;
         }else {
             return "模板库中无此模板";
@@ -97,7 +99,7 @@ public class ProfileController {
         String url = "http://" + ip + ":48081/api/v1/deviceprofile/name/" + name;
         try {
             restTemplate.delete(url);
-            logService.info(null,"删除了网关"+ip+"的设备模板："+name);
+            logService.info("delete","删除了网关"+ip+"的设备模板："+name);
             return "done";
         } catch (Exception e) {
             return e.toString();
@@ -122,13 +124,15 @@ public class ProfileController {
                 status.add(rawSubscribe);
                 subscribeService.save(rawSubscribe.getSubTopic());
                 threadPoolExecutor.execute(rawSubscribe);
-                logService.info(null,"设备管理微服务订阅topic：" + rawSubscribe.getSubTopic());
+                logService.info("create","模板管理成功订阅主题"+ rawSubscribe.getSubTopic());
                 return "订阅成功";
             }catch (Exception e) {
                 e.printStackTrace();
+                logService.error("create","模板管理订阅主题"+rawSubscribe.getSubTopic()+"时，参数设定有误。");
                 return "参数错误!";
             }
         }else {
+            logService.error("create","模板管理已订阅主题"+rawSubscribe.getSubTopic()+",再次订阅失败");
             return "订阅主题重复";
         }
     }
@@ -152,7 +156,6 @@ public class ProfileController {
         synchronized (status){
             flag = status.remove(search(subTopic));
         }
-        logService.info(null,"删除设备管理上topic为"+subTopic+"的订阅");
         return flag;
     }
 
@@ -178,6 +181,7 @@ public class ProfileController {
     @CrossOrigin
     @GetMapping("/ping")
     public String ping(){
+        logService.info("retrieve","对模板管理进行了一次健康检测");
         return "pong";
     }
 }

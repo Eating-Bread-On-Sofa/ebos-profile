@@ -19,6 +19,8 @@ public class InitRawSubscribe implements ApplicationRunner {
 
     @Autowired
     SubscribeService subscribeService;
+    @Autowired
+    LogService logService;
 
     private ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1, 50,3, TimeUnit.SECONDS,new SynchronousQueue<>());
 
@@ -29,6 +31,7 @@ public class InitRawSubscribe implements ApplicationRunner {
         for (Subscribe subscribe : subscribes){
             RawSubscribe rawSubscribe = new RawSubscribe(subscribe.getSubTopic());
             ProfileController.status.add(rawSubscribe);
+            logService.info("update"," 模板管理重启后，初始化启动订阅："+rawSubscribe);
             threadPoolExecutor.execute(rawSubscribe);
         }
     }
