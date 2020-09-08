@@ -31,7 +31,8 @@ public class ProfileServiceImpl implements ProfileService {
     public JSONObject getJson(String name) {
         Yaml yaml = new Yaml();
         ProfileYML profileYMLS = profileYMLRepo.findByName(name);
-        JSONObject json = yaml.load(profileYMLS.getInfo());
+        Map<String,Object> result = (Map<String, Object>) yaml.load(profileYMLS.getInfo());
+        JSONObject json = new JSONObject(result);
         return json;
     }
 
