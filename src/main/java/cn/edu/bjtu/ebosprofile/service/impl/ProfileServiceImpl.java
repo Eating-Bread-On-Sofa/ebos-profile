@@ -34,8 +34,8 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public List<ProfileYML> getJson(String name) {
-        Query query = Query.query(Criteria.where("name").is(name));
-        List<ProfileYML> profileYMLS = mongoTemplate.find(query,ProfileYML.class,"ProfileYML");
+        Query query = Query.query(Criteria.where("_id").is(name));
+        List<ProfileYML> profileYMLS = mongoTemplate.find(query,ProfileYML.class,"profileYML");
         return  profileYMLS;
     }
 
