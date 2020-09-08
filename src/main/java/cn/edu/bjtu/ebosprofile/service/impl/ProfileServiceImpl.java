@@ -6,9 +6,6 @@ import cn.edu.bjtu.ebosprofile.service.ProfileService;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.yaml.snakeyaml.Yaml;
@@ -24,8 +21,6 @@ public class ProfileServiceImpl implements ProfileService {
     RestTemplate restTemplate;
     @Autowired
     ProfileYMLRepo profileYMLRepo;
-    @Autowired
-    MongoTemplate mongoTemplate;
 
     @Override
     public ProfileYML getYML(String name){
@@ -33,10 +28,11 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public List<ProfileYML> getJson(String name) {
-        Query query = Query.query(Criteria.where("_id").is(name));
-        List<ProfileYML> profileYMLS = mongoTemplate.find(query,ProfileYML.class,"profileYML");
-        return  profileYMLS;
+    public JSONObject getJson(String name) {
+        Yaml yaml = new Yaml();
+        ProfileYML profileYMLS = profileYMLRepo.findByName(name);
+        JSONObject json = yaml.load(profileYMLS.getInfo());
+        return json;
     }
 
     @Override

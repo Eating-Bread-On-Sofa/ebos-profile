@@ -3,6 +3,7 @@ package cn.edu.bjtu.ebosprofile.controller;
 import cn.edu.bjtu.ebosprofile.entity.ProfileYML;
 import cn.edu.bjtu.ebosprofile.service.*;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,7 @@ public class ProfileController {
     @ApiOperation(value = "查看指定模板")
     @CrossOrigin
     @GetMapping("/name/json/{name}")
-    public List<ProfileYML> getJsonProfile(@PathVariable String name) {
+    public JSONObject getJsonProfile(@PathVariable String name) {
         return profileService.getJson(name);
     }
 
