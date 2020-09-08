@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONArray;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -49,12 +50,19 @@ public class ProfileController {
         return profileService.saveYML(profileYML);
     }
 
-    @ApiOperation(value = "查看指定模板")
+    @ApiOperation(value = "查看指定模板（目前先不用了，用下面那种调用方式）")
     @CrossOrigin
-    @GetMapping("/name/{name}")
+    @GetMapping("/name/yml/{name}")
     public String getRepoProfile(@PathVariable String name) {
         ProfileYML yml = profileService.getYML(name);
         return yml.getInfo();
+    }
+
+    @ApiOperation(value = "查看指定模板")
+    @CrossOrigin
+    @GetMapping("/name/json/{name}")
+    public List<ProfileYML> getJsonProfile(@PathVariable String name) {
+        return profileService.getJson(name);
     }
 
     @ApiOperation(value = "删除指定模板")

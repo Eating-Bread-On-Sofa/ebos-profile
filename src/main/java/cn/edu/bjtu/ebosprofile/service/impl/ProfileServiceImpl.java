@@ -6,6 +6,9 @@ import cn.edu.bjtu.ebosprofile.service.ProfileService;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.yaml.snakeyaml.Yaml;
@@ -21,10 +24,19 @@ public class ProfileServiceImpl implements ProfileService {
     RestTemplate restTemplate;
     @Autowired
     ProfileYMLRepo profileYMLRepo;
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     @Override
     public ProfileYML getYML(String name){
         return profileYMLRepo.findByName(name);
+    }
+
+    @Override
+    public List<ProfileYML> getJson(String name) {
+        Query query = Query.query(Criteria.where("name").is(name));
+        List<ProfileYML> profileYMLS = mongoTemplate.find(query,ProfileYML.class,"ProfileYML");
+        return  profileYMLS;
     }
 
     @Override
